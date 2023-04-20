@@ -39,6 +39,7 @@ export default {
         viewers: this.viewers,
         favourite: false,
         like: false,
+        id: Date.now(),
       };
       this.$emit("createMovie", newMovie);
       this.name = "";
