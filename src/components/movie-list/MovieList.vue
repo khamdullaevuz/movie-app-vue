@@ -5,34 +5,16 @@
 </template>
 
 <script>
-import MovieListItem from "../movie-list-item/MovieListItem.Vue";
+import MovieListItem from "../movie-list-item/MovieListItem.vue";
 export default {
   components: {
     MovieListItem,
   },
-  data() {
-    return {
-      movies: [
-        {
-          name: "Omar",
-          viewers: 811,
-          favourite: false,
-          like: true,
-        },
-        {
-          name: "Empire of osman",
-          viewers: 411,
-          favourite: false,
-          like: false,
-        },
-        {
-          name: "Ertugrul",
-          viewers: 711,
-          favourite: true,
-          like: false,
-        },
-      ],
-    };
+  props: {
+    movies: {
+      type: Array,
+      required: true,
+    },
   },
 };
 </script>
