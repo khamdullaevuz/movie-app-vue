@@ -17,9 +17,9 @@
         @input="viewers = $event.target.value"
       />
 
-      <button class="btn btn-outline-dark" type="submit" @click="addMovie">
+      <PrimaryButton class="btn-outline-dark" type="submit" @click="addMovie">
         Qo'shish
-      </button>
+      </PrimaryButton>
     </form>
   </div>
 </template>
