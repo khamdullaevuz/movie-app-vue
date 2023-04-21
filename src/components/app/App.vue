@@ -6,11 +6,11 @@
         :favouriteMoviesCount="movies.filter((c) => c.favourite).length"
       />
       <div class="search-panel">
-        <SearchPanel />
+        <SearchPanel :updateTermHandler="updateTermHandler" />
         <AppFilter />
       </div>
       <MovieList
-        :movies="movies"
+        :movies="onSearchHandler(movies, term)"
         @onToggle="onToggleHandler"
         @onRemove="onRemoveHandler"
       />
@@ -58,6 +58,7 @@ export default {
           id: 3,
         },
       ],
+      term: "",
     };
   },
   methods: {
@@ -74,6 +75,16 @@ export default {
     },
     onRemoveHandler(id) {
       this.movies = this.movies.filter((c) => c.id !== id);
+    },
+    onSearchHandler(arr, term) {
+      if (term.length == 0) {
+        return arr;
+      }
+
+      return arr.filter((c) => c.name.toLowerCase().indexOf(term) > -1);
+    },
+    updateTermHandler(term) {
+      this.term = term;
     },
   },
 };
