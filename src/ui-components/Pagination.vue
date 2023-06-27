@@ -4,6 +4,7 @@
       <li
         v-for="pageNumber in totalPages"
         :key="pageNumber"
+        class="pagination-item"
         :class="{ active: pageNumber == page }"
         @click="changePageHandler(pageNumber)"
       >
@@ -34,4 +35,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.pagination-item {
+  cursor: pointer;
+}
+</style>
