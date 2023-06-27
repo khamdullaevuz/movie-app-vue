@@ -12,7 +12,14 @@
           :filterName="filter"
         />
       </div>
+      <Box v-if="!movies.length && !isLoading">
+        <p class="text-center fs-3 text-danger">Kinolar yo'q</p>
+      </Box>
+      <Box v-else-if="isLoading" class="d-flex justify-content-center">
+        <Loader />
+      </Box>
       <MovieList
+        v-else
         :movies="onFilterHandler(onSearchHandler(movies, term), filter)"
         @onToggle="onToggleHandler"
         @onRemove="onRemoveHandler"
@@ -42,6 +49,7 @@ export default {
       movies: [],
       term: "",
       filter: "all",
+      isLoading: false,
     };
   },
   methods: {
@@ -84,6 +92,7 @@ export default {
     },
     async fetchMovie() {
       try {
+        this.isLoading = true;
         const { data } = await axios.get(
           "https://jsonplaceholder.typicode.com/posts?_limit=10"
         );
@@ -97,6 +106,8 @@ export default {
         this.movies = newData;
       } catch (error) {
         alert(error.message);
+      } finally {
+        this.isLoading = false;
       }
     },
   },
