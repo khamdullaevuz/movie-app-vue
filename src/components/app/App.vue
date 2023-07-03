@@ -57,7 +57,6 @@ export default {
       term: "",
       filter: "all",
       isLoading: false,
-      limit: 10,
       page: 1,
       totalPages: 0,
     };
@@ -66,10 +65,18 @@ export default {
     async createMovie(item) {
       try {
         const response = await axios.post(
-          "https://jsonplaceholder.typicode.com/posts",
+          process.env.API_URL + "/movies",
           item
         );
-        this.movies.push(response.data);
+        item = response.data.data;
+        let data = {
+          id: item.id,
+          name: item.title,
+          like: item.like,
+          favourite: item.favourite,
+          viewers: item.views,
+        };
+        this.movies.push(data);
       } catch (error) {
         alert(error.message);
       }
@@ -85,9 +92,8 @@ export default {
     async onRemoveHandler(id) {
       try {
         const response = await axios.delete(
-          `https://jsonplaceholder.typicode.com/posts/${id}`
+          process.env.API_URL + `/movies/${id}`
         );
-        console.log(response);
         this.movies = this.movies.filter((c) => c.id !== id);
       } catch (error) {
         alert(error.message);
@@ -122,25 +128,21 @@ export default {
     async fetchMovie() {
       try {
         this.isLoading = true;
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts",
-          {
-            params: {
-              _limit: this.limit,
-              _page: this.page,
-            },
-          }
-        );
-        const newData = response.data.map((item) => ({
+        const response = await axios.get(process.env.API_URL + "/movies", {
+          params: {
+            page: this.page,
+          },
+        });
+        const newData = response.data.data.map((item) => ({
           id: item.id,
           name: item.title,
-          like: false,
-          favourite: false,
-          viewers: item.id * 10,
+          like: item.like,
+          favourite: item.favourite,
+          viewers: item.views,
         }));
-        this.totalPages = Math.ceil(
-          response.headers["x-total-count"] / this.limit
-        );
+        let limit = response.data.pagination.per_page;
+        let total = response.data.pagination.total;
+        this.totalPages = Math.ceil(total / limit);
         this.movies = newData;
       } catch (error) {
         alert(error.message);
