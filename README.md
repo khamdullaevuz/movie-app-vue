@@ -27,3 +27,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Backend Server
+
+https://github.com/khamdullaevuz/movie-app-laravel
